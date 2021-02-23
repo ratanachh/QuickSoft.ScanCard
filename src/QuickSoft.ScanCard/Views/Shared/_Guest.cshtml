@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <title>@ViewData["Title"]</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>System Scan Card</title>
+    
+        <link rel="icon" href="~/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+        <link rel="stylesheet" href="~/css/animate.css">
+        <link rel="stylesheet" href="~/css/style.css">
+</head>
+<body>
+<div>
+    @RenderBody()
+    
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/Popper/popper.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/pace/pace.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/Popper/popper.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/pace/pace.min.js"></script>
+    </environment>
+    
+    @await RenderSectionAsync("scripts", required: false)
+</div>
+</body>
+</html>

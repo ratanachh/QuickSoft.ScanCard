@@ -1,0 +1,149 @@
+<div class="ibox">
+    <div class="ibox-title">
+        <h4>Audit</h4>
+    </div>
+    <div class="ibox-content">
+        <form action="" method="post">
+            <fieldset class="fieldset">
+                <legend class="legend">
+                    <h4 class="c-grey-900">Searching</h4>
+                </legend>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="username">Username :</label>
+                        <input type="text" class="form-control" name="username" id="username">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 date_picker">
+                        <label for="date_from" class="font-normal">From Date</label>
+                        <div class="input-group date">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control" name="date" id="date_from">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 date_picker">
+                        <label for="to_date" class="font-normal">To Date</label>
+                        <div class="input-group date">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control" name="to_date" id="to_date">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-w-m btn-success" id="btn_search">Search</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <button type="reset" class="btn btn-w-m btn-success" id="btn_reset">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="ibox">
+    <div class="ibox-content">
+        <div class="table-responsive">
+            <table class="table table-hover data-table-audit">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Audit Code</th>
+                        <th>Descriptions</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+    <script>
+    $(document).ready(function() {
+        let audit = [{
+                "data": "username",
+                "defaultContent": ""
+            },
+            {
+                "data": "id",
+                "defaultContent": ""
+            },
+            {
+                "data": "descriptions",
+                "defaultContent": ""
+            },
+            {
+                "data": "created_date",
+                "defaultContent": ""
+            }
+        ];
+
+        let option = {
+            buttons: [
+                { extend: 'copy'},
+                { extend: 'csv'},
+                {
+                    extend: 'excel',
+                    title: 'ExampleFile'
+                },
+                defualt_custome_pdf({widths : [100, 45, 290, 80], titlePage : 'Audit Report', image: '<?= Common::imgToBase64("img/logo-round.png")?>'})
+                ,
+                {
+                    extend: 'print',
+                    customize: function(win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        };
+        var table = ajaxDataTable('.data-table-audit', 'audit/getAll', audit, option);
+
+        $('#btn_search').on('click', function() {
+            let username = $('#username');
+            let date_from = $('#date_from');
+            let to_date = $('#to_date');
+            let data = {
+                username: username.val() || '',
+                date_from: date_from.val() || '',
+                to_date: to_date.val() || ''
+            };
+
+            // let url = '';
+            // if(data.username === "" && data.date_from === "" && data.to_date === ""){
+            //     url = 'audit/getAll';
+            // }
+            $.post('audit/searchAudit', data, function(result) {
+                table.clear();
+                table.rows.add(result.data).draw();
+                if (result.success) {
+
+                } else {
+                    toast(result.type, result.message, result.title);
+                }
+
+            });
+        });
+    });
+</script>
+
+}

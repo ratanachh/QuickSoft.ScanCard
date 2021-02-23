@@ -1,0 +1,17 @@
+{
+  "name": "Scan Card",
+  "short_name": "QuickSoft App",
+  "description": "Creating PWA in ASP.NET Core.",
+  "icons": [
+    {
+      "src": "/img/logo-round.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/logo-round.png",
+      "sizes": "512x512"
+    }
+  ],
+  "display": "standalone",
+  "start_url": "/"
+}

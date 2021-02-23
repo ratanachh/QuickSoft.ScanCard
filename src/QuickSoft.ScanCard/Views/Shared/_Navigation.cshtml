@@ -1,0 +1,37 @@
+﻿<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="profile-element">
+                    <a asp-action="Index" asp-controller="Sale">
+                        <img alt="image" width="180" src="~/img/quicksoft-technology-logo.png"/>
+                    </a>
+                </div>
+                <div class="logo-element">
+                    <a asp-action="Index" asp-controller="Sale">
+                        <img alt="image" width="30" src="~/img/logo-round.png" />
+                    </a>
+                </div>
+            </li>
+            <li class="@Html.IsSelected("Sale", "Index")">
+                <a asp-action="Index" asp-controller="Sale"><i class="fal fa-shopping-cart"></i> <span class="nav-label">Sale</span></a>
+            </li>
+            <li class="@Html.IsSelected("CardPackage", "Index") @Html.IsSelected("CardPackage", "Index")">
+                <a asp-action="Index" asp-controller="CardPackage"><i class="fal fa-address-card"></i> <span class="nav-label">Card Package</span></a>
+            </li>
+            <li class="@Html.IsSelected("Card", "Index")">
+                <a asp-action="Index" asp-controller="Card"><i class="fal fa-credit-card-blank"></i> <span class="nav-label">Card</span></a>
+            </li>
+            <li class="@Html.IsSelected("Customer", "Index")">
+                <a asp-action="Index" asp-controller="Customer"><i class="fal fa-user-friends"></i> <span class="nav-label">Customer</span></a>
+            </li>
+            <li class="@Html.IsSelected("UserAccount", "Index")">
+                <a asp-action="Index" asp-controller="UserAccount"><i class="fal fa-user-lock"></i> <span class="nav-label">User Account</span></a>
+            </li>
+            <li class="@Html.IsSelected("Audit", "Index")">
+                <a asp-action="Index" asp-controller="Audit"><i class="fal fa-shield-check"></i> <span class="nav-label">Audit</span></a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
