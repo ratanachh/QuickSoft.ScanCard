@@ -29,10 +29,6 @@ namespace QuickSoft.ScanCard
         {
 
             services.AddControllersWithViews();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "QuickSoft ScanCard", Version = "v1"});
-            });
             services.AddProgressiveWebApp();
         }
 
@@ -44,8 +40,6 @@ namespace QuickSoft.ScanCard
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuickSoft ScanCard v1"));
             }
 
             app.UseHttpsRedirection();

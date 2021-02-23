@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickSoft.ScanCard", "src\QuickSoft.ScanCard\QuickSoft.ScanCard.csproj", "{DD7B9589-614F-4E9E-9081-FB2F171C4360}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickSoft.ScanCard.Api", "src\QuickSoft.ScanCard.Api\QuickSoft.ScanCard.Api.csproj", "{4569BD02-29C2-43E3-8C73-1D15A22C82E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{DD7B9589-614F-4E9E-9081-FB2F171C4360}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD7B9589-614F-4E9E-9081-FB2F171C4360}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD7B9589-614F-4E9E-9081-FB2F171C4360}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4569BD02-29C2-43E3-8C73-1D15A22C82E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4569BD02-29C2-43E3-8C73-1D15A22C82E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4569BD02-29C2-43E3-8C73-1D15A22C82E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4569BD02-29C2-43E3-8C73-1D15A22C82E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
