@@ -56,7 +56,7 @@ public static class Program
             });
 
         Target(Publish, DependsOn(Test),
-            ForEach("src/Conduit"),
+            ForEach("src/QuickSoft.ScanCard"),
             project =>
             {
                 Run("dotnet",
