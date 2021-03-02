@@ -1,10 +1,12 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace QuickSoft.ScanCard.Features.Customer
+namespace QuickSoft.ScanCard.Features.User
 {
-    public class CustomerController : Controller
+    [Route("users")] 
+    public class UsersController
     {
+        [HttpGet]
         public IActionResult Index()
         {
             throw new NotImplementedException();

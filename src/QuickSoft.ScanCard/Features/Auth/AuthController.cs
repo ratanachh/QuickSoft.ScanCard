@@ -1,22 +1,26 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 
 namespace QuickSoft.ScanCard.Features.Auth
 {
-    public class AuthController : Controller
+
+    public class AuthController : ControllerBase
     {
         public IActionResult Register()
         {
-            return View();
+            return Ok();
         }
         
+
         public IActionResult Logout()
         {
-            return Redirect("Login");
+            throw new NotImplementedException();
         }
+
 
         public IActionResult Login()
         {
-            return View();
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 
 namespace QuickSoft.ScanCard.Features.Card
@@ -6,7 +7,7 @@ namespace QuickSoft.ScanCard.Features.Card
     {
         public IActionResult Index()
         {
-            return View();
+            throw new NotImplementedException();
         }
     }
 }

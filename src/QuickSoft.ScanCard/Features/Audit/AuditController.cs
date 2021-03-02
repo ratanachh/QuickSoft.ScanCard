@@ -1,12 +1,20 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace QuickSoft.ScanCard.Features.Audit
 {
-    public class AuditController : Controller
+    [Route("audit")]
+    public class AuditController : ControllerBase
     {
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var users = new Dictionary<string, string>()
+            {
+                {"user1", "password1"},
+                {"user2", "password2"}
+            };
+            return Ok(users);
         }
     }
 }

@@ -49,10 +49,10 @@ namespace QuickSoft.ScanCard.Infrastructure.Errors
                     context.Response.StatusCode = (int)re.Code;
                     result = JsonSerializer.Serialize(new
                     {
-                        errors = re.Errors
+                        errors = (string) re.Errors
                     });
                     break;
-                case Exception e:
+                case { } e:
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     logger.LogError(e, "Unhandled Exception");
                     result = JsonSerializer.Serialize(new
