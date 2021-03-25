@@ -1,9 +1,12 @@
+using System.Text.Json.Serialization;
+
 namespace QuickSoft.ScanCard.Domain
 {
     using System;
 
     public class User
     {
+        [JsonIgnore]
         public int Id { get; set; }
 
         public string Username { get; set; }
@@ -17,5 +20,11 @@ namespace QuickSoft.ScanCard.Domain
         public int UserType { get; set; }
 
         public DateTime CreatedDate { get; set; } = new();
+        
+        [JsonIgnore]
+        public byte[] Hash { get; set; }
+
+        [JsonIgnore]
+        public byte[] Salt { get; set; }
     }
 }

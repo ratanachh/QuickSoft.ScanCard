@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using QuickSoft.ScanCard.Domain;
 
 namespace QuickSoft.ScanCard.Infrastructure
 {
@@ -13,6 +14,8 @@ namespace QuickSoft.ScanCard.Infrastructure
             : base(options)
         {
         }
+
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
