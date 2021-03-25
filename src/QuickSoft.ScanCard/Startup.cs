@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -15,8 +18,8 @@ namespace QuickSoft.ScanCard
 {
     public class Startup
     {
-        public const string DEFAULT_DATABASE_CONNECTION_STRING = "Filename=realworld.db";
-        public const string DEFAULT_DATABASE_PROVIDER = "sqlite";
+        private const string DEFAULT_DATABASE_CONNECTION_STRING = "Filename=quicksoft.db";
+        private const string DEFAULT_DATABASE_PROVIDER = "sqlite";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,35 +30,34 @@ namespace QuickSoft.ScanCard
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddMediatR(Assembly.GetExecutingAssembly());
-            // services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
-            // services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DBContextTransactionPipelineBehavior<,>));
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbContextTransactionPipeLineBehavior<,>));
 
             // take the connection string from the environment variable or use hard-coded database name
-            // var connectionString = Configuration.GetValue<string>("ASPNETCORE_Conduit_ConnectionString") ?? DEFAULT_DATABASE_CONNECTION_STRING;
+            var connectionString = Configuration.GetValue<string>("ASPNETCORE_QuickSoft_ConnectionString") ?? DEFAULT_DATABASE_CONNECTION_STRING;
             // // take the database provider from the environment variable or use hard-coded database provider
-            // var databaseProvider = Configuration.GetValue<string>("ASPNETCORE_Conduit_DatabaseProvider");
-            // if (string.IsNullOrWhiteSpace(databaseProvider))
-            // {
-            //     databaseProvider = DEFAULT_DATABASE_PROVIDER;
-            // }
+            var databaseProvider = Configuration.GetValue<string>("ASPNETCORE_QuickSoft_DatabaseProvider");
+            if (string.IsNullOrWhiteSpace(databaseProvider))
+            {
+                databaseProvider = DEFAULT_DATABASE_PROVIDER;
+            }
 
-            // services.AddDbContext<ConduitContext>(options =>
-            // {
-            //     if (databaseProvider.ToLower().Trim().Equals("sqlite"))
-            //     {
-            //         options.UseSqlite(connectionString);
-            //     }
-            //     else if (databaseProvider.ToLower().Trim().Equals("sqlserver"))
-            //     {
-            //         // only works in windows container
-            //         options.UseSqlServer(connectionString);
-            //     }
-            //     else
-            //     {
-            //         throw new Exception("Database provider unknown. Please check configuration");
-            //     }
-            // });
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                switch (databaseProvider.ToLower().Trim())
+                {
+                    case "sqlite":
+                        options.UseSqlite(connectionString);
+                        break;
+                    case "sqlserver":
+                        // only works in windows container
+                        options.UseSqlServer(connectionString);
+                        break;
+                    default:
+                        throw new Exception("Database provider unknown. Please check configuration");
+                }
+            });
 
             services.AddLocalization(x => x.ResourcesPath = "Resources");
 
@@ -104,7 +106,7 @@ namespace QuickSoft.ScanCard
                     cfg.RegisterValidatorsFromAssemblyContaining<Startup>();
                 });
 
-            // services.AddAutoMapper(GetType().Assembly);
+            services.AddAutoMapper(GetType().Assembly);
 
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
@@ -143,7 +145,7 @@ namespace QuickSoft.ScanCard
                 x.SwaggerEndpoint("/swagger/v1/swagger.json", "QuickSoft API V1");
             });
 
-            // app.ApplicationServices.GetRequiredService<ConduitContext>().Database.EnsureCreated();
+            app.ApplicationServices.GetRequiredService<ApplicationDbContext>().Database.EnsureCreated();
         }
     }
 }
