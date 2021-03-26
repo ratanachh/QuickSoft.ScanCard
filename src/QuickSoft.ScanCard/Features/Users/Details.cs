@@ -9,7 +9,7 @@ using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Errors;
 using QuickSoft.ScanCard.Infrastructure.Security;
 
-namespace QuickSoft.ScanCard.Features.User
+namespace QuickSoft.ScanCard.Features.Users
 {
     public class Details
     {

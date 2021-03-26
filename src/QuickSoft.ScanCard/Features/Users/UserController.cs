@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Security;
 
-namespace QuickSoft.ScanCard.Features.User
+namespace QuickSoft.ScanCard.Features.Users
 {
     [Route("user")]
     [Authorize(AuthenticationSchemes = JwtIssuerOptions.Schemes)]
@@ -29,6 +29,11 @@ namespace QuickSoft.ScanCard.Features.User
             {
                 Username = _currentUserAccessor.GetCurrentUsername()
             }, cancellationToken);
+        }
+
+        public Task<UserEnvelope> UpdateUser(Edit.Command command, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

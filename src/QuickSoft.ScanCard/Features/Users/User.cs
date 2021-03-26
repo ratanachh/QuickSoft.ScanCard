@@ -1,4 +1,4 @@
-namespace QuickSoft.ScanCard.Features.User
+namespace QuickSoft.ScanCard.Features.Users
 {
     public class User
     {
