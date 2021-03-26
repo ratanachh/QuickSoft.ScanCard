@@ -33,7 +33,7 @@ namespace QuickSoft.ScanCard.Features.Users
 
         public Task<UserEnvelope> UpdateUser(Edit.Command command, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return _mediator.Send(command, cancellationToken);
         }
     }
 }

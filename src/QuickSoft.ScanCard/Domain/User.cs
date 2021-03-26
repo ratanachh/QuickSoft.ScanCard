@@ -22,7 +22,7 @@ namespace QuickSoft.ScanCard.Domain
         public DateTime CreatedDate { get; set; } = new();
         
         [JsonIgnore]
-        public byte[] Hash { get; set; }
+        public string Hash { get; set; }
 
         [JsonIgnore]
         public byte[] Salt { get; set; }
