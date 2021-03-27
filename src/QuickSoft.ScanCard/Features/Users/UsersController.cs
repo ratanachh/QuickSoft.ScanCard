@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +11,17 @@ namespace QuickSoft.ScanCard.Features.Users
     [Route("users")] 
     public class UsersController
     {
-        [HttpGet]
-        public IActionResult Index(List<IFormFile> files)
+        private readonly IMediator _mediator;
+
+        public UsersController(IMediator mediator)
         {
-            throw new NotImplementedException();
+            _mediator = mediator;
+        }
+
+        [HttpPost]
+        public Task<UserEnvelope> Create([FromBody] Create.Command command, CancellationToken cancellationToken)
+        {
+            return _mediator.Send(command, cancellationToken);
         }
     }
 }

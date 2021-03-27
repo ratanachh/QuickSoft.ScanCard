@@ -16,9 +16,7 @@ namespace QuickSoft.ScanCard.Features.Users
         public class UserData
         {
             public string Username { get; set; }
-        
             public string ProfileUrl { get; set; }
-
             public string Phone { get; set; }
             public string Password { get; set; }
 

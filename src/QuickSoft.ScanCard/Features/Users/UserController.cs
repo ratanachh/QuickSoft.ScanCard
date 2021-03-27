@@ -31,6 +31,7 @@ namespace QuickSoft.ScanCard.Features.Users
             }, cancellationToken);
         }
 
+        [HttpPut]
         public Task<UserEnvelope> UpdateUser(Edit.Command command, CancellationToken cancellationToken)
         {
             return _mediator.Send(command, cancellationToken);
