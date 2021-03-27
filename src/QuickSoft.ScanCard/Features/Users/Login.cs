@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -13,42 +12,33 @@ using QuickSoft.ScanCard.Infrastructure.Security;
 
 namespace QuickSoft.ScanCard.Features.Users
 {
-    public class Create
+    public class Login
     {
         public class UserData
         {
             public string Username { get; set; }
-        
-            public string ProfileUrl { get; set; }
-
-            public string Phone { get; set; }
-
-            public int UserType { get; set; }
-            
             public string Password { get; set; }
         }
-
-        class UserDataValidation : AbstractValidator<UserData>
+        
+        public class UserValidation : AbstractValidator<UserData>
         {
-            public UserDataValidation()
+            public UserValidation()
             {
                 RuleFor(x => x.Username).NotNull().NotEmpty();
-                RuleFor(x => x.Phone).NotNull().NotEmpty();
-                RuleFor(x => x.UserType).NotNull().NotEmpty();
                 RuleFor(x => x.Password).NotNull().NotEmpty();
             }
         }
-
+        
         public class Command : IRequest<UserEnvelope>
         {
             public UserData User { get; set; }
         }
         
-        public class CommandValidator : AbstractValidator<Command>
+        public class CommandValidation : AbstractValidator<Command>
         {
-            public CommandValidator()
+            public CommandValidation()
             {
-                RuleFor(x => x.User).NotNull().SetValidator(new UserDataValidation());
+                RuleFor(x => x.User).NotNull().SetValidator(new UserValidation());
             }
         }
         
@@ -68,27 +58,21 @@ namespace QuickSoft.ScanCard.Features.Users
             }
             public async Task<UserEnvelope> Handle(Command request, CancellationToken cancellationToken)
             {
-                if (await _context.Users.Where(x => x.Username == request.User.Username).AnyAsync(cancellationToken))
+                var person = await _context.Users.Where(x => x.Username == request.User.Username).SingleOrDefaultAsync(cancellationToken);
+                if (person == null)
                 {
-                    throw new RestException(HttpStatusCode.BadRequest, new { Username = Constants.IN_USE });
+                    throw new RestException(HttpStatusCode.Unauthorized, new {Error = "Invalid email / password."});
                 }
-                
-                var person = new Domain.User()
+
+                if (!person.Password.SequenceEqual(_passwordHasher.Hash(request.User.Password)))
                 {
-                    Username = request.User.Username,
-                    ProfileUrl = request.User.ProfileUrl,
-                    Phone = request.User.Phone,
-                    UserType = request.User.UserType,
-                    Password = _passwordHasher.Hash(request.User.Password),
-                };
-                await _context.Users.AddAsync(person, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken);
+                    throw new RestException(HttpStatusCode.Unauthorized, new {Error = "Invalid email / password."});
+                }
 
                 var user = _mapper.Map<Domain.User, User>(person);
-                user.Token = _jwtTokenGenerator.CreateToken(user.Username);
+                user.Token = _jwtTokenGenerator.CreateToken(person.Username);
                 return new UserEnvelope(user);
             }
         }
-        
     }
 }

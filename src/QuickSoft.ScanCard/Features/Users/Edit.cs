@@ -64,9 +64,7 @@ namespace QuickSoft.ScanCard.Features.Users
 
                 if (!string.IsNullOrWhiteSpace(request.User.Password))
                 {
-                    var salt = Guid.NewGuid().ToByteArray();
-                    person.Hash = _passwordHasher.Hash(request.User.Password);
-                    person.Salt = salt;
+                    person.Password = _passwordHasher.Hash(request.User.Password);
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);

@@ -11,6 +11,7 @@ namespace QuickSoft.ScanCard.Domain
 
         public string Username { get; set; }
 
+        [JsonIgnore]
         public string Password { get; set; }
 
         public string Phone { get; set; }
@@ -20,11 +21,5 @@ namespace QuickSoft.ScanCard.Domain
         public int UserType { get; set; }
 
         public DateTime CreatedDate { get; set; } = new();
-        
-        [JsonIgnore]
-        public string Hash { get; set; }
-
-        [JsonIgnore]
-        public byte[] Salt { get; set; }
     }
 }

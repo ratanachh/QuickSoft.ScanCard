@@ -26,13 +26,13 @@ namespace QuickSoft.ScanCard.Features.Users
             }
         }
         
-        public class QueryHandler : IRequestHandler<Query, UserEnvelope>
+        public class Handler : IRequestHandler<Query, UserEnvelope>
         {
             private readonly ApplicationDbContext _context;
             private readonly IJwtTokenGenerator _jwtTokenGenerator;
             private readonly IMapper _mapper;
 
-            public QueryHandler(ApplicationDbContext context, IJwtTokenGenerator jwtTokenGenerator, IMapper mapper)
+            public Handler(ApplicationDbContext context, IJwtTokenGenerator jwtTokenGenerator, IMapper mapper)
             {
                 _context = context;
                 _jwtTokenGenerator = jwtTokenGenerator;

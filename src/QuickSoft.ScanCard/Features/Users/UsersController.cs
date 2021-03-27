@@ -23,5 +23,11 @@ namespace QuickSoft.ScanCard.Features.Users
         {
             return _mediator.Send(command, cancellationToken);
         }
+
+        [HttpPost("login")]
+        public Task<UserEnvelope> Login([FromBody] Login.Command command, CancellationToken cancellationToken)
+        {
+            return _mediator.Send(command, cancellationToken);
+        }
     }
 }
