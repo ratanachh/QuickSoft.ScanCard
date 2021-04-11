@@ -18,8 +18,6 @@ namespace QuickSoft.ScanCard
 {
     public class Startup
     {
-        private const string DEFAULT_DATABASE_CONNECTION_STRING = "Filename=quicksoft.db";
-        private const string DEFAULT_DATABASE_PROVIDER = "sqlite";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,28 +33,11 @@ namespace QuickSoft.ScanCard
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbContextTransactionPipeLineBehavior<,>));
 
             // take the connection string from the environment variable or use hard-coded database name
-            var connectionString = Configuration.GetValue<string>("ASPNETCORE_QuickSoft_ConnectionString") ?? DEFAULT_DATABASE_CONNECTION_STRING;
-            // // take the database provider from the environment variable or use hard-coded database provider
-            var databaseProvider = Configuration.GetValue<string>("ASPNETCORE_QuickSoft_DatabaseProvider");
-            if (string.IsNullOrWhiteSpace(databaseProvider))
-            {
-                databaseProvider = DEFAULT_DATABASE_PROVIDER;
-            }
+            var connectionString = "Data Source=wdb4.my-hosting-panel.com,1433;Database=quickso1_scan_card;User ID=quickso1_scan_card;Password=P@$$w0rdGCF078";//Configuration.GetConnectionString("ASPNETCORE_QuickSoft_ConnectionString");
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                switch (databaseProvider.ToLower().Trim())
-                {
-                    case "sqlite":
-                        options.UseSqlite(connectionString);
-                        break;
-                    case "sqlserver":
-                        // only works in windows container
-                        options.UseSqlServer(connectionString);
-                        break;
-                    default:
-                        throw new Exception("Database provider unknown. Please check configuration");
-                }
+                options.UseSqlServer(connectionString);
             });
 
             services.AddLocalization(x => x.ResourcesPath = "Resources");
@@ -137,6 +118,7 @@ namespace QuickSoft.ScanCard
             app.UseSwagger(c =>
             {
                 c.RouteTemplate = "swagger/{documentName}/swagger.json";
+                // c.SerializeAsV2 = true;
             });
 
             // Enable middleware to serve swagger-ui assets(HTML, JS, CSS etc.)

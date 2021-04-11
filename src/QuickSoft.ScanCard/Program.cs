@@ -1,16 +1,30 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using QuickSoft.ScanCard;
+using Microsoft.Extensions.Hosting;
 
-var config = new ConfigurationBuilder()
-    .AddEnvironmentVariables()
-    .Build();
-    
-var host = new WebHostBuilder()
-    .UseConfiguration(config)
-    .UseKestrel()
-    .UseUrls("http://+:5000")
-    .UseStartup<Startup>()
-    .Build();
-    
-await host.RunAsync();
+namespace QuickSoft.ScanCard
+{
+    public static class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            await CreateHostBuilder(args);
+        }
+
+        private static async Task CreateHostBuilder(string[] args)
+        {
+            var config = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .Build();
+
+            var host = new WebHostBuilder()
+                .UseConfiguration(config)
+                .UseKestrel()
+                .UseStartup<Startup>()
+                .Build();
+            await host.RunAsync();
+        }
+
+    }
+}

@@ -58,7 +58,7 @@ namespace QuickSoft.ScanCard.Features.Users
             }
             public async Task<UserEnvelope> Handle(Command request, CancellationToken cancellationToken)
             {
-                var person = await _context.Users.Where(x => x.Username == request.User.Username).SingleOrDefaultAsync(cancellationToken);
+                var person = await _context.Persons.Where(x => x.Username == request.User.Username).SingleOrDefaultAsync(cancellationToken);
                 if (person == null)
                 {
                     throw new RestException(HttpStatusCode.Unauthorized, new {Error = "Invalid email / password."});
@@ -69,7 +69,7 @@ namespace QuickSoft.ScanCard.Features.Users
                     throw new RestException(HttpStatusCode.Unauthorized, new {Error = "Invalid email / password."});
                 }
 
-                var user = _mapper.Map<Domain.User, User>(person);
+                var user = _mapper.Map<Domain.Person, User>(person);
                 user.Token = _jwtTokenGenerator.CreateToken(person.Username);
                 return new UserEnvelope(user);
             }

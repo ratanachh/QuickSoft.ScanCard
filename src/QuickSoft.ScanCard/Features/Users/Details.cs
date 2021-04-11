@@ -5,6 +5,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using QuickSoft.ScanCard.Domain;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Errors;
 using QuickSoft.ScanCard.Infrastructure.Security;
@@ -41,7 +42,7 @@ namespace QuickSoft.ScanCard.Features.Users
 
             public async Task<UserEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                var person = await _context.Users
+                var person = await _context.Persons
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Username == request.Username, cancellationToken);
 
@@ -50,7 +51,7 @@ namespace QuickSoft.ScanCard.Features.Users
                     throw new RestException(HttpStatusCode.NotFound, new { User = Constants.NOT_FOUND });
                 }
 
-                var user = _mapper.Map<Domain.User, User>(person);
+                var user = _mapper.Map<Person, User>(person);
                 user.Token = _jwtTokenGenerator.CreateToken(person.Username);
                 return new UserEnvelope(user);
             }

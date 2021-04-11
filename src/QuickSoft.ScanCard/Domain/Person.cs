@@ -4,7 +4,7 @@ namespace QuickSoft.ScanCard.Domain
 {
     using System;
 
-    public class User
+    public class Person
     {
         [JsonIgnore]
         public int Id { get; set; }

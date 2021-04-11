@@ -6,6 +6,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using QuickSoft.ScanCard.Domain;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Security;
 
@@ -54,7 +55,7 @@ namespace QuickSoft.ScanCard.Features.Users
             public async Task<UserEnvelope> Handle(Command request, CancellationToken cancellationToken)
             {
                 var currentUserName = _currentUserAccessor.GetCurrentUsername();
-                var person = await _context.Users.Where(x => x.Username == currentUserName)
+                var person = await _context.Persons.Where(x => x.Username == currentUserName)
                     .FirstOrDefaultAsync(cancellationToken);
 
                 person.Username = request.User.Username ?? person.Username;
@@ -69,7 +70,7 @@ namespace QuickSoft.ScanCard.Features.Users
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return new UserEnvelope(_mapper.Map<Domain.User, User>(person));
+                return new UserEnvelope(_mapper.Map<Person, User>(person));
             }
         }
     }

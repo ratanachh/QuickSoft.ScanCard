@@ -7,6 +7,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using QuickSoft.ScanCard.Domain;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Errors;
 using QuickSoft.ScanCard.Infrastructure.Security;
@@ -68,12 +69,12 @@ namespace QuickSoft.ScanCard.Features.Users
             }
             public async Task<UserEnvelope> Handle(Command request, CancellationToken cancellationToken)
             {
-                if (await _context.Users.Where(x => x.Username == request.User.Username).AnyAsync(cancellationToken))
+                if (await _context.Persons.Where(x => x.Username == request.User.Username).AnyAsync(cancellationToken))
                 {
                     throw new RestException(HttpStatusCode.BadRequest, new { Username = Constants.IN_USE });
                 }
                 
-                var person = new Domain.User()
+                var person = new Person()
                 {
                     Username = request.User.Username,
                     ProfileUrl = request.User.ProfileUrl,
@@ -81,10 +82,10 @@ namespace QuickSoft.ScanCard.Features.Users
                     UserType = request.User.UserType,
                     Password = _passwordHasher.Hash(request.User.Password),
                 };
-                await _context.Users.AddAsync(person, cancellationToken);
+                await _context.Persons.AddAsync(person, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var user = _mapper.Map<Domain.User, User>(person);
+                var user = _mapper.Map<Person, User>(person);
                 user.Token = _jwtTokenGenerator.CreateToken(user.Username);
                 return new UserEnvelope(user);
             }

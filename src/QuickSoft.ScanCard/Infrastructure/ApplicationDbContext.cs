@@ -15,10 +15,15 @@ namespace QuickSoft.ScanCard.Infrastructure
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Person> Persons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Person>(b =>
+            {
+                b.HasKey(p => p.Id);
+                
+            });
             base.OnModelCreating(modelBuilder);
         }
 
