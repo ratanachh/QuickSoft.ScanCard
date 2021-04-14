@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -28,12 +29,8 @@ namespace QuickSoft.ScanCard
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbContextTransactionPipeLineBehavior<,>));
-
             // take the connection string from the environment variable or use hard-coded database name
-            var connectionString = "Data Source=wdb4.my-hosting-panel.com,1433;Database=quickso1_scan_card;User ID=quickso1_scan_card;Password=P@$$w0rdGCF078";//Configuration.GetConnectionString("ASPNETCORE_QuickSoft_ConnectionString");
+            var connectionString = Configuration.GetConnectionString("ASPNETCORE_QuickSoft_ConnectionString");
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -41,6 +38,11 @@ namespace QuickSoft.ScanCard
             });
 
             services.AddLocalization(x => x.ResourcesPath = "Resources");
+            
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbContextTransactionPipeLineBehavior<,>));
+
 
             // Inject an implementation of ISwaggerProvider with defaulted settings applied
             services.AddSwaggerGen(x =>

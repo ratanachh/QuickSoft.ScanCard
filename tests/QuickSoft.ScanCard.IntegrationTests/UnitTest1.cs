@@ -7,6 +7,7 @@ namespace QuickSoft.ScanCard.IntegrationTests
         [SetUp]
         public void Setup()
         {
+            Assert.Fail();
         }
 
         [Test]

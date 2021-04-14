@@ -49,7 +49,7 @@ namespace QuickSoft.ScanCard.Infrastructure.Errors
                     context.Response.StatusCode = (int)re.Code;
                     result = JsonSerializer.Serialize(new
                     {
-                        errors = (string) re.Errors
+                        errors = re.Errors
                     });
                     break;
                 case { } e:
