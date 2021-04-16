@@ -9,9 +9,9 @@ namespace QuickSoft.ScanCard.Infrastructure.Security
             return Crypter.Blowfish.Crypt(password);
         }
         
-        public bool Verify(string password, string cryptedPassword)
+        public bool Verify(string password, string encryptedPassword)
         {
-            return Crypter.CheckPassword(password, cryptedPassword);
+            return Crypter.CheckPassword(password, encryptedPassword);
         }
     }
 }

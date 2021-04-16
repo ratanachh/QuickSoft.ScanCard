@@ -1,8 +1,8 @@
+using System;
+using System.Text.Json.Serialization;
+
 namespace QuickSoft.ScanCard.Domain
 {
-    using System;
-    using System.Text.Json.Serialization;
-    
     public class Person
     {
         [JsonIgnore]

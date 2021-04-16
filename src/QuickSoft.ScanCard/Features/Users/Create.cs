@@ -35,7 +35,6 @@ namespace QuickSoft.ScanCard.Features.Users
             {
                 RuleFor(x => x.Username).NotNull().NotEmpty();
                 RuleFor(x => x.Phone).NotNull().NotEmpty();
-                RuleFor(x => x.UserType).NotNull().NotEmpty();
                 RuleFor(x => x.Password).NotNull().NotEmpty();
             }
         }

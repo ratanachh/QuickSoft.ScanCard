@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace QuickSoft.ScanCard.Features.Audit
+namespace QuickSoft.ScanCard.Features.Audits
 {
     [Route("audit")]
     public class AuditController : ControllerBase

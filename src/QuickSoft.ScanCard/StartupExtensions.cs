@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using QuickSoft.ScanCard.Infrastructure.Security;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
@@ -21,12 +22,12 @@ namespace QuickSoft.ScanCard
             var issuer = "issuer";
             var audience = "audience";
 
-            // services.Configure<JwtIssuerOptions>(options =>
-            // {
-            //     options.Issuer = issuer;
-            //     options.Audience = audience;
-            //     options.SigningCredentials = signingCredentials;
-            // });
+            services.Configure<JwtIssuerOptions>(options =>
+            {
+                options.Issuer = issuer;
+                options.Audience = audience;
+                options.SigningCredentials = signingCredentials;
+            });
 
             var tokenValidationParameters = new TokenValidationParameters
             {

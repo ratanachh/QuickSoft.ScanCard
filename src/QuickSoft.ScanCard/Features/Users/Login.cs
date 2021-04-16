@@ -6,6 +6,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using QuickSoft.ScanCard.Domain;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Errors;
 using QuickSoft.ScanCard.Infrastructure.Security;
@@ -64,12 +65,12 @@ namespace QuickSoft.ScanCard.Features.Users
                     throw new RestException(HttpStatusCode.Unauthorized, new {Error = "Invalid email / password."});
                 }
 
-                if (!person.Password.SequenceEqual(_passwordHasher.Hash(request.User.Password)))
+                if (!_passwordHasher.Verify(request.User.Password, person.Password))
                 {
                     throw new RestException(HttpStatusCode.Unauthorized, new {Error = "Invalid email / password."});
                 }
 
-                var user = _mapper.Map<Domain.Person, User>(person);
+                var user = _mapper.Map<Person, User>(person);
                 user.Token = _jwtTokenGenerator.CreateToken(person.Username);
                 return new UserEnvelope(user);
             }

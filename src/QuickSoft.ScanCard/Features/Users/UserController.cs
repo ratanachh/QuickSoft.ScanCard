@@ -30,6 +30,12 @@ namespace QuickSoft.ScanCard.Features.Users
                 Username = _currentUserAccessor.GetCurrentUsername()
             }, cancellationToken);
         }
+        
+        [HttpPost]
+        public Task<UserEnvelope> Create([FromBody] Create.Command command, CancellationToken cancellationToken)
+        {
+            return _mediator.Send(command, cancellationToken);
+        }
 
         [HttpPut]
         public Task<UserEnvelope> UpdateUser(Edit.Command command, CancellationToken cancellationToken)

@@ -1,9 +1,9 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace QuickSoft.ScanCard.Features.Sale
+namespace QuickSoft.ScanCard.Features.CardPackages
 {
-    public class SaleController : Controller
+    public class CardPackageController : Controller
     {
         public IActionResult Index()
         {
