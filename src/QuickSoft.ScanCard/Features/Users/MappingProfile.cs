@@ -3,7 +3,7 @@ using AutoMapper;
 
 namespace QuickSoft.ScanCard.Features.Users
 {
-    public class MappingProfile : AutoMapper.Profile
+    public class MappingProfile : Profile
     {
         public MappingProfile()
         {

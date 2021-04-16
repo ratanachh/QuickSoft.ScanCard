@@ -2,8 +2,6 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using QuickSoft.ScanCard.Infrastructure.Security;
 
 namespace QuickSoft.ScanCard.Features.Users
 {

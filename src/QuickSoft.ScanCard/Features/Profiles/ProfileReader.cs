@@ -44,9 +44,9 @@ namespace QuickSoft.ScanCard.Features.Profiles
 
             profile.Type = person.UserType switch
             {
-                0 => Constants.Admin,
-                1 => Constants.Developer,
-                2 => Constants.User,
+                0 => UserConstants.Admin,
+                1 => UserConstants.Developer,
+                2 => UserConstants.User,
                 _ => profile.Type
             };
 

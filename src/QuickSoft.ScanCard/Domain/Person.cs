@@ -21,4 +21,11 @@ namespace QuickSoft.ScanCard.Domain
 
         public DateTime CreatedDate { get; set; } = new();
     }
+
+    public static class UserConstants
+    {
+        public const string Admin = nameof(Admin);
+        public const string User = nameof(User);
+        public const string Developer = nameof(Developer);
+    }
 }
