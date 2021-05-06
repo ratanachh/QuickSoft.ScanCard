@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using QuickSoft.ScanCard.Features.Audits;
 using QuickSoft.ScanCard.Features.Profiles;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Errors;
@@ -64,7 +65,24 @@ namespace QuickSoft.ScanCard
                     },
                     Array.Empty<string>()}
                 });
-                x.SwaggerDoc("v1", new OpenApiInfo { Title = "QuickSoft API", Version = "v1" });
+                x.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "QuickSoft API",
+                    Version = "v1",
+                    Description = "A simple QuickSoft ASP.NET Core Web API",
+                    TermsOfService = new Uri("https://quicksoftteam.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Ratana Chhorm",
+                        Email = "ratana@quicksoftteam.com",
+                        Url = new Uri("https://mobile.twitter.com/ratana.chhorm"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = new Uri("https://quicksoftteam.com/license"),
+                    }
+                });
                 x.CustomSchemaIds(y => y.FullName);
                 x.DocInclusionPredicate((version, apiDescription) => true);
                 x.TagActionsBy(y => new List<string>()
@@ -74,6 +92,10 @@ namespace QuickSoft.ScanCard
             });
 
             services.AddCors();
+            
+            // Add browser detection service
+            services.AddBrowserDetection();
+            
             services.AddMvc(opt =>
                 {
                     opt.Conventions.Add(new GroupByApiRootConvention());
@@ -94,7 +116,7 @@ namespace QuickSoft.ScanCard
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
-            services.AddScoped<IProfileReader, ProfileReader>();
+            services.AddScoped<IAuditReader, AuditReader>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddJwt();

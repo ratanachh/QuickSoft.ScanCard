@@ -282,3 +282,4 @@ tools
 .env
 
 .DS_Store
+dist/

@@ -33,16 +33,19 @@ namespace QuickSoft.ScanCard.Features.Users
             private readonly ApplicationDbContext _context;
             private readonly IJwtTokenGenerator _jwtTokenGenerator;
             private readonly IMapper _mapper;
+            private readonly ICurrentUserAccessor _currentUserAccessor;
 
-            public Handler(ApplicationDbContext context, IJwtTokenGenerator jwtTokenGenerator, IMapper mapper)
+            public Handler(ApplicationDbContext context, IJwtTokenGenerator jwtTokenGenerator, IMapper mapper, ICurrentUserAccessor currentUserAccessor)
             {
                 _context = context;
                 _jwtTokenGenerator = jwtTokenGenerator;
                 _mapper = mapper;
+                _currentUserAccessor = currentUserAccessor;
             }
 
             public async Task<UserEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
+                var currentUsername = _currentUserAccessor.GetCurrentUsername();
                 var person = await _context.Persons
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Username == request.Username, cancellationToken);
@@ -51,9 +54,20 @@ namespace QuickSoft.ScanCard.Features.Users
                 {
                     throw new RestException(HttpStatusCode.NotFound, new { User = Constants.NOT_FOUND });
                 }
+                
+                if (_currentUserAccessor.GetCurrentUserType().Equals(UserConstants.User)
+                    && !currentUsername.Equals(person.Username)
+                )
+                {
+                    throw new RestException(HttpStatusCode.Unauthorized, new { User = Constants.UNAUTHERIZE });
+                }
 
                 var user = _mapper.Map<Person, User>(person);
-                user.Token = _jwtTokenGenerator.CreateToken(person.Username);
+                user.Type = UserConstants.GetUserTypeString(person.UserType);
+                
+                if (!user.Username.Equals(currentUsername)) return new UserEnvelope(user);
+                // To mark the profile UI is current user
+                user.IsCurrentUser = true;
                 return new UserEnvelope(user);
             }
         }

@@ -59,16 +59,26 @@ namespace QuickSoft.ScanCard.Features.Users
             private readonly IPasswordHasher _passwordHasher;
             private readonly IJwtTokenGenerator _jwtTokenGenerator;
             private readonly IMapper _mapper;
+            private readonly ICurrentUserAccessor _currentUserAccessor;
 
-            public Handler(ApplicationDbContext context, IPasswordHasher passwordHasher, IJwtTokenGenerator jwtTokenGenerator, IMapper mapper)
+            public Handler(ApplicationDbContext context, 
+                IPasswordHasher passwordHasher, 
+                IJwtTokenGenerator jwtTokenGenerator, 
+                IMapper mapper,
+                ICurrentUserAccessor currentUserAccessor)
             {
                 _context = context;
                 _passwordHasher = passwordHasher;
                 _jwtTokenGenerator = jwtTokenGenerator;
                 _mapper = mapper;
+                _currentUserAccessor = currentUserAccessor;
             }
             public async Task<UserEnvelope> Handle(Command request, CancellationToken cancellationToken)
             {
+                if (_currentUserAccessor.GetCurrentUserType().Equals(UserConstants.User))
+                {
+                    throw new RestException(HttpStatusCode.Unauthorized, new {Username = Constants.UNAUTHERIZE});
+                }
                 if (await _context.Persons.Where(x => x.Username == request.User.Username).AnyAsync(cancellationToken))
                 {
                     throw new RestException(HttpStatusCode.BadRequest, new { Username = Constants.IN_USE });
@@ -81,12 +91,14 @@ namespace QuickSoft.ScanCard.Features.Users
                     Phone = request.User.Phone,
                     UserType = request.User.UserType,
                     Password = _passwordHasher.Hash(request.User.Password),
+                    CreatedDate = DateTime.Now
                 };
                 await _context.Persons.AddAsync(person, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 var user = _mapper.Map<Person, User>(person);
-                user.Token = _jwtTokenGenerator.CreateToken(user.Username);
+                user.Type = UserConstants.GetUserTypeString(person.UserType);
+                user.Token = _jwtTokenGenerator.CreateToken(user.Username, user.Type);
                 return new UserEnvelope(user);
             }
         }

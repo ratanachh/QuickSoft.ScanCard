@@ -29,7 +29,7 @@ namespace build
                     static void RemoveDirectory(string d)
                     {
                         if (!Directory.Exists(d)) return;
-                        Console.WriteLine($"Cleaning {d}");
+                        Console.WriteLine($@"Cleaning {d}");
                         Directory.Delete(d, true);
                     }
 
@@ -64,7 +64,7 @@ namespace build
                         $"publish {project} -c Release -f net5.0 -o ./publish --no-restore --no-build --verbosity=normal");
                 });
 
-            Target("default", DependsOn(Publish), () => Console.WriteLine("Done!"));
+            Target("default", DependsOn(Publish), () => Console.WriteLine(@"Done!"));
             await RunTargetsAndExitAsync(args);
         }
     }

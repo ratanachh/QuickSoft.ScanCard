@@ -14,11 +14,12 @@ namespace QuickSoft.ScanCard.Infrastructure.Security
             _jwtOptions = jwtOptions.Value;
         }
 
-        public string CreateToken(string username)
+        public string CreateToken(string username, string userType)
         {
             var claim = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Typ, userType),
                 new Claim(JwtRegisteredClaimNames.Jti, _jwtOptions.JtiGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat,
                     new DateTimeOffset(_jwtOptions.IssuedAt).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
@@ -31,6 +32,12 @@ namespace QuickSoft.ScanCard.Infrastructure.Security
                 _jwtOptions.Expiration,
                 _jwtOptions.SigningCredentials);
             return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
+
+        public IJwtTokenGenerator ValidTokenTime(int second)
+        {
+            _jwtOptions.ValidFor = TimeSpan.FromSeconds(second);
+            return this;
         }
     }
 }

@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace QuickSoft.ScanCard.Features.Users
 {
     public class User
@@ -10,7 +12,10 @@ namespace QuickSoft.ScanCard.Features.Users
 
         public string Phone { get; set; }
 
-        public int UserType { get; set; }
+        [JsonPropertyName("userType")]
+        public string Type { get; set; }
+
+        public bool IsCurrentUser { get; set; }
     }
 
     public record UserEnvelope(User User);

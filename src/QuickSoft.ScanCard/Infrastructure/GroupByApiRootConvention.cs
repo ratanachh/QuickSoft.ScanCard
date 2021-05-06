@@ -10,7 +10,7 @@ namespace QuickSoft.ScanCard.Infrastructure
         {
             var controllerNamespace = controller.Attributes.OfType<RouteAttribute>().FirstOrDefault();
             var apiVersion = controllerNamespace?.Template?.Split('/').First().ToLower() ?? "default";
-
+        
             controller.ApiExplorer.GroupName = apiVersion;
         }
     }

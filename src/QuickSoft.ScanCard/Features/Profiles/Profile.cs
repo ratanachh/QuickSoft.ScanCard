@@ -10,9 +10,7 @@ namespace QuickSoft.ScanCard.Features.Profiles
 
         public string Phone { get; set; }
         
-        [JsonPropertyName("userType")]
-        public string Type { get; set; }
-
-        public bool IsCurrentUser { get; set; }
     }
+    
+    public record ProfileEnvelope(Profile Profile);
 }

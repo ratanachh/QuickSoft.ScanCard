@@ -3,12 +3,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Security;
 
 namespace QuickSoft.ScanCard.Features.Users
 {
+    [ApiController]
     [Route("user")]
     [Authorize(AuthenticationSchemes = JwtIssuerOptions.Schemes)]
     public class UserController
@@ -22,12 +24,12 @@ namespace QuickSoft.ScanCard.Features.Users
             _currentUserAccessor = currentUserAccessor;
         }
         
-        [HttpGet]
-        public Task<UserEnvelope> GetCurrent(CancellationToken cancellationToken)
+        [HttpGet("{username}")]
+        public Task<UserEnvelope> GetCurrent(string username, CancellationToken cancellationToken)
         {
             return _mediator.Send(new Details.Query()
             {
-                Username = _currentUserAccessor.GetCurrentUsername()
+                Username = username
             }, cancellationToken);
         }
         

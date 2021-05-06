@@ -1,13 +1,26 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace QuickSoft.ScanCard.Features.Cards
 {
-    public class CardController : Controller
+    [ApiController]
+    [Route("card")]
+    public class CardController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly IMediator _mediator;
+
+        public CardController(IMediator mediator)
         {
-            throw new NotImplementedException();
+            _mediator = mediator;
+        }
+        
+        [HttpPost]
+        public Task<CardEnvelope> Create([FromBody] Create.Command command, CancellationToken cancellationToken)
+        {
+            return _mediator.Send(command, cancellationToken);
         }
     }
 }
