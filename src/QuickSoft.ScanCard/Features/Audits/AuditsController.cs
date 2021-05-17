@@ -26,7 +26,7 @@ namespace QuickSoft.ScanCard.Features.Audits
             return _mediator.Send(new List.Query(), cancellationToken);
         }
 
-        [HttpPost]
+        [HttpPost("search")]
         public Task<List<Audit>> Search([FromBody] Search.Query query, CancellationToken cancellationToken)
         {
             return _mediator.Send(query, cancellationToken);

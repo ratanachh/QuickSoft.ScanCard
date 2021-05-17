@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using QuickSoft.ScanCard.Features.Audits;
+using QuickSoft.ScanCard.Features.Cards;
 using QuickSoft.ScanCard.Features.Profiles;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Errors;
@@ -79,7 +80,7 @@ namespace QuickSoft.ScanCard
                     },
                     License = new OpenApiLicense
                     {
-                        Name = "Use under LICX",
+                        Name = "Use under Proprietary",
                         Url = new Uri("https://quicksoftteam.com/license"),
                     }
                 });
@@ -117,6 +118,7 @@ namespace QuickSoft.ScanCard
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
             services.AddScoped<IAuditReader, AuditReader>();
+            services.AddScoped<ICardReader, CardReader>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddJwt();

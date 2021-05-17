@@ -19,7 +19,7 @@ namespace QuickSoft.ScanCard.Features.Audits
         {
             private readonly IAuditReader _auditReader;
 
-            public Handler(ApplicationDbContext context, IAuditReader auditReader)
+            public Handler(IAuditReader auditReader)
             {
                 _auditReader = auditReader;
             }

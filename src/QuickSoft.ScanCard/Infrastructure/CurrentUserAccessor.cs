@@ -42,5 +42,12 @@ namespace QuickSoft.ScanCard.Infrastructure
             var remoteIpAddress = _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.MapToIPv4();
             return remoteIpAddress?.ToString();
         }
+
+        public string GetAuditId()
+        {
+            return _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Aud)
+                ?.Value;
+        }
     }
 }

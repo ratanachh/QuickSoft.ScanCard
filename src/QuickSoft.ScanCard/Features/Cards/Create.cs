@@ -32,24 +32,28 @@ namespace QuickSoft.ScanCard.Features.Cards
         {
             private readonly ApplicationDbContext _context;
             private readonly IMapper _mapper;
+            private readonly ICurrentUserAccessor _currentUserAccessor;
 
-            public Handler(ApplicationDbContext context, IMapper mapper)
+            public Handler(ApplicationDbContext context, IMapper mapper, ICurrentUserAccessor currentUserAccessor)
             {
                 _context = context;
                 _mapper = mapper;
+                _currentUserAccessor = currentUserAccessor;
             }
             public async Task<CardEnvelope> Handle(Command request, CancellationToken cancellationToken)
             {
                 if (await _context.Cards.Where(x => x.CardNumber == request.CardNumber).AnyAsync(cancellationToken))
                 {
-                    throw new RestException(HttpStatusCode.BadRequest, new { CardNumber = Constants.IN_USE });
+                    throw new RestException(HttpStatusCode.BadRequest, new { CardNumber = Constants.ALREADY_EXIST });
                 }
+                var auditId = _currentUserAccessor.GetAuditId();
 
-                var cardData = new Domain.Card()
+                var cardData = new Domain.Card
                 {
                     CardNumber = request.CardNumber,
                     IsActive = true,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.Now,
+                    AuditId = int.Parse(auditId)
                 };
                 await _context.Cards.AddAsync(cardData, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);

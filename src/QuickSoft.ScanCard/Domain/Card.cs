@@ -11,14 +11,17 @@ namespace QuickSoft.ScanCard.Domain
         [Key]
         public int Id { get; set; }
 
+        [StringLength(20)]
         public string CardNumber { get; set; }
 
         public bool IsActive { get; set; }
-
-        public Customer Customer { get; set; }
+        
+        [JsonIgnore]
+        public int CustomerId { get; set; }
+        
 
         [JsonIgnore]
-        public ICollection<Audit> Audit { get; set; }
+        public int AuditId { get; set; }
 
         public DateTime CreatedDate { get; set; }
     }

@@ -84,7 +84,7 @@ namespace QuickSoft.ScanCard.Features.Users
                     throw new RestException(HttpStatusCode.BadRequest, new { Username = Constants.IN_USE });
                 }
                 
-                var person = new Person()
+                var person = new Person
                 {
                     Username = request.User.Username,
                     ProfileUrl = request.User.ProfileUrl,
@@ -96,9 +96,11 @@ namespace QuickSoft.ScanCard.Features.Users
                 await _context.Persons.AddAsync(person, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
+                var auditId = _currentUserAccessor.GetAuditId();
+
                 var user = _mapper.Map<Person, User>(person);
                 user.Type = UserConstants.GetUserTypeString(person.UserType);
-                user.Token = _jwtTokenGenerator.CreateToken(user.Username, user.Type);
+                user.Token = _jwtTokenGenerator.CreateToken(user.Username, user.Type, auditId);
                 return new UserEnvelope(user);
             }
         }

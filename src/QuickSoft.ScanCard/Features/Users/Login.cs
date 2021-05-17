@@ -79,7 +79,6 @@ namespace QuickSoft.ScanCard.Features.Users
 
                 var user = _mapper.Map<Person, User>(person);
                 user.Type = UserConstants.GetUserTypeString(person.UserType);
-                user.Token = _jwtTokenGenerator.ValidTokenTime(86400).CreateToken(person.Username, user.Type);
                 user.IsCurrentUser = true;
                 
                 /*
@@ -97,6 +96,7 @@ namespace QuickSoft.ScanCard.Features.Users
                 await _context.Audits.AddAsync(audit, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
                 
+                user.Token = _jwtTokenGenerator.ValidTokenTime(86400).CreateToken(person.Username, user.Type, audit.Id.ToString());
                 
                 return new UserEnvelope(user);
             }

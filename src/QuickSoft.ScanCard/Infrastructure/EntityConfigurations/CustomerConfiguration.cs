@@ -8,10 +8,11 @@ namespace QuickSoft.ScanCard.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
+            builder.HasKey(c => c.Id);
+            
             builder
-                .HasOne<Card>(customer => customer.Card)
-                .WithOne(card => card.Customer)
-                .OnDelete(DeleteBehavior.Cascade);
+                .Property(c => c.Name)
+                .UseCollation(CollationConfiguration.Khmer_100_BIN);
         }
     }
 }

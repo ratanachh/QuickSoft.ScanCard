@@ -14,12 +14,13 @@ namespace QuickSoft.ScanCard.Infrastructure.Security
             _jwtOptions = jwtOptions.Value;
         }
 
-        public string CreateToken(string username, string userType)
+        public string CreateToken(string username, string userType, string auditId)
         {
             var claim = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Typ, userType),
+                new Claim(JwtRegisteredClaimNames.Aud, auditId),
                 new Claim(JwtRegisteredClaimNames.Jti, _jwtOptions.JtiGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat,
                     new DateTimeOffset(_jwtOptions.IssuedAt).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
