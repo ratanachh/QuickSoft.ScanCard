@@ -12,7 +12,7 @@ using QuickSoft.ScanCard.Infrastructure.Errors;
 
 namespace QuickSoft.ScanCard.Features.Cards
 {
-    public class Create
+    public static class Create
     {
         public class Command : IRequest<CardEnvelope>
         {

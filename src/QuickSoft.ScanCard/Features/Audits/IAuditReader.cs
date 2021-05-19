@@ -6,6 +6,6 @@ namespace QuickSoft.ScanCard.Features.Audits
 {
     public interface IAuditReader
     {
-        Task<List<Audit>> ReadAudit(Audit audit, CancellationToken cancellationToken, bool isSearch = false);
+        Task<List<Audit>> ReadAudit(CancellationToken cancellationToken, Audit audit = null, bool isSearch = false);
     }
 }

@@ -16,7 +16,7 @@ namespace QuickSoft.ScanCard.Features.Audits
             _context = context;
         }
 
-        public async Task<List<Audit>> ReadAudit(Audit audit, CancellationToken cancellationToken, bool isSearch = false)
+        public async Task<List<Audit>> ReadAudit(CancellationToken cancellationToken, Audit audit = null, bool isSearch = false)
         {
             if (!isSearch)
             {

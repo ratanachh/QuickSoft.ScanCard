@@ -11,7 +11,7 @@ using QuickSoft.ScanCard.Infrastructure.Errors;
 
 namespace QuickSoft.ScanCard.Features.Profiles
 {
-    public class Details
+    public static class Details
     {
         public class Query : IRequest<ProfileEnvelope>
         {

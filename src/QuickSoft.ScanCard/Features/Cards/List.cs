@@ -1,27 +1,35 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using QuickSoft.ScanCard.Infrastructure;
 
 namespace QuickSoft.ScanCard.Features.Cards
 {
-    public class List
+    public static class List
     {
-        public class Query : IRequest<List<Card>>
-        {
-        }
+        public record Query : IRequest<List<Card>>;
         
         public class Handler : IRequestHandler<Query, List<Card>>
         {
-            private readonly ICardReader _cardReader;
+            private readonly ApplicationDbContext _context;
 
-            public Handler(ICardReader cardReader)
+            public Handler(ApplicationDbContext context)
             {
-                _cardReader = cardReader;
+                _context = context;
             }
-            public Task<List<Card>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Card>> Handle(Query request, CancellationToken cancellationToken)
             {
-                throw new System.NotImplementedException();
+                return await _context.Cards.Select(c =>new Card
+                {
+                    CardNumber = c.CardNumber,
+                    CreatedDate = c.CreatedDate,
+                    IsActive = c.IsActive,
+                    AuditId = c.AuditId,
+                    CustomerId = c.CustomerId
+                }).ToListAsync(cancellationToken);
             }
         }
     }

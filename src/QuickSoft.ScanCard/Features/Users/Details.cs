@@ -13,7 +13,7 @@ using Constants = QuickSoft.ScanCard.Infrastructure.Errors.Constants;
 
 namespace QuickSoft.ScanCard.Features.Users
 {
-    public class Details
+    public static class Details
     {
         public class Query : IRequest<UserEnvelope>
         {

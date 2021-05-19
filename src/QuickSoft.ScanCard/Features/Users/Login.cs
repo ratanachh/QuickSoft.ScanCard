@@ -18,7 +18,7 @@ using Shyjus.BrowserDetection.Browsers;
 
 namespace QuickSoft.ScanCard.Features.Users
 {
-    public class Login
+    public static class Login
     {
         public class UserData
         {

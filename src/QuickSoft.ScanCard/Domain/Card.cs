@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace QuickSoft.ScanCard.Domain
@@ -18,7 +19,6 @@ namespace QuickSoft.ScanCard.Domain
         
         [JsonIgnore]
         public int CustomerId { get; set; }
-        
 
         [JsonIgnore]
         public int AuditId { get; set; }

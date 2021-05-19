@@ -15,7 +15,7 @@ using Constants = QuickSoft.ScanCard.Infrastructure.Errors.Constants;
 
 namespace QuickSoft.ScanCard.Features.Users
 {
-    public class Create
+    public static class Create
     {
         public class UserData
         {

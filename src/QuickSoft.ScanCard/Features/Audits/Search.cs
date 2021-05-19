@@ -7,7 +7,7 @@ using QuickSoft.ScanCard.Infrastructure;
 
 namespace QuickSoft.ScanCard.Features.Audits
 {
-    public class Search
+    public static class Search
     {
         public class Query : IRequest<List<Audit>>
         {
@@ -30,12 +30,12 @@ namespace QuickSoft.ScanCard.Features.Audits
             
             public Task<List<Audit>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return _auditReader.ReadAudit(new Audit
+                return _auditReader.ReadAudit(cancellationToken, new Audit
                 {
                     FromDate = request.FromDate,
                     ToDate = request.ToDate,
                     Username = request.Username
-                }, cancellationToken, true);
+                },true);
             }
         }
     }

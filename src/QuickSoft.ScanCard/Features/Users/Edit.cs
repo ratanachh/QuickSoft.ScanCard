@@ -12,7 +12,7 @@ using QuickSoft.ScanCard.Infrastructure.Security;
 
 namespace QuickSoft.ScanCard.Features.Users
 {
-    public class Edit
+    public static class Edit
     {
         public class UserData
         {

@@ -22,5 +22,7 @@ namespace QuickSoft.ScanCard.Features.Cards
         {
             return _mediator.Send(new List.Query(), cancellationToken);
         }
+        
+        
     }
 }
