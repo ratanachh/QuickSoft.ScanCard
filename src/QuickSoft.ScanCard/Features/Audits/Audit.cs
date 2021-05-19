@@ -1,8 +1,7 @@
-using System;
-using System.Text.Json.Serialization;
-
 namespace QuickSoft.ScanCard.Features.Audits
 {
+    using System;
+    using System.Text.Json.Serialization;
     public class Audit
     {
         public int Id { get; set; }

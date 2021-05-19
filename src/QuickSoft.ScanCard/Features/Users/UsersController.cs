@@ -2,6 +2,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using QuickSoft.ScanCard.Features.Users.Queries;
 
 namespace QuickSoft.ScanCard.Features.Users
 {

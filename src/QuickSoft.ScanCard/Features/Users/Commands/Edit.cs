@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -10,7 +9,7 @@ using QuickSoft.ScanCard.Domain;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Security;
 
-namespace QuickSoft.ScanCard.Features.Users
+namespace QuickSoft.ScanCard.Features.Users.Commands
 {
     public static class Edit
     {

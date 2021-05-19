@@ -5,6 +5,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QuickSoft.ScanCard.Features.Users.Commands;
+using QuickSoft.ScanCard.Features.Users.Queries;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Security;
 

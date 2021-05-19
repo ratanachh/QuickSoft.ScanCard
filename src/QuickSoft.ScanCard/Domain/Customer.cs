@@ -1,10 +1,8 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
 namespace QuickSoft.ScanCard.Domain
 {
     using System;
+    using System.Text.Json.Serialization;
+    using System.ComponentModel.DataAnnotations;
 
     public class Customer
     {

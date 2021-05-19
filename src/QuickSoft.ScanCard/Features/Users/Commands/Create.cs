@@ -13,7 +13,7 @@ using QuickSoft.ScanCard.Infrastructure.Errors;
 using QuickSoft.ScanCard.Infrastructure.Security;
 using Constants = QuickSoft.ScanCard.Infrastructure.Errors.Constants;
 
-namespace QuickSoft.ScanCard.Features.Users
+namespace QuickSoft.ScanCard.Features.Users.Commands
 {
     public static class Create
     {

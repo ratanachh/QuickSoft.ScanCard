@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
-using QuickSoft.ScanCard.Infrastructure;
-using QuickSoft.ScanCard.Infrastructure.Errors;
-
-namespace QuickSoft.ScanCard.Features.Audits
+namespace QuickSoft.ScanCard.Features.Audits.Queries
 {
+    using System;
+    using MediatR;
+    using System.Net;
+    using Infrastructure;
+    using System.Threading;
+    using Infrastructure.Errors;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+    
     public static class Search
     {
         public class Query : IRequest<List<Audit>>

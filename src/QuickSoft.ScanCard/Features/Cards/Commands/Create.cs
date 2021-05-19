@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Errors;
 
-namespace QuickSoft.ScanCard.Features.Cards
+namespace QuickSoft.ScanCard.Features.Cards.Commands
 {
     public static class Create
     {

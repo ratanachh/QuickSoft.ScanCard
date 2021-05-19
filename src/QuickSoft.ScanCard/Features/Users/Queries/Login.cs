@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.EntityFrameworkCore;
 using QuickSoft.ScanCard.Domain;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Errors;
 using QuickSoft.ScanCard.Infrastructure.Security;
-using Shyjus.BrowserDetection;
-using Shyjus.BrowserDetection.Browsers;
 
-namespace QuickSoft.ScanCard.Features.Users
+namespace QuickSoft.ScanCard.Features.Users.Queries
 {
     public static class Login
     {

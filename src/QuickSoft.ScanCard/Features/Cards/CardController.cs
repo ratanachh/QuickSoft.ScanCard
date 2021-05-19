@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using QuickSoft.ScanCard.Features.Cards.Commands;
+using QuickSoft.ScanCard.Features.Cards.Queries;
 
 namespace QuickSoft.ScanCard.Features.Cards
 {
@@ -27,7 +29,7 @@ namespace QuickSoft.ScanCard.Features.Cards
         [HttpGet("{cardNumber}")]
         public Task<Domain.Card> SelectByCardNumber(string cardNumber, CancellationToken cancellationToken)
         {
-            return _mediator.Send(new Select.ByCardNumber.Query
+            return _mediator.Send(new SearchByCardNumber.Query
             {
                 CardNumber = cardNumber
             }, cancellationToken);

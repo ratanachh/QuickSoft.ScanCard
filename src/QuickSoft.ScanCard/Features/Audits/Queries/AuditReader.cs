@@ -1,12 +1,11 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using QuickSoft.ScanCard.Infrastructure;
-
-namespace QuickSoft.ScanCard.Features.Audits
+namespace QuickSoft.ScanCard.Features.Audits.Queries
 {
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
+    using QuickSoft.ScanCard.Infrastructure;
     public class AuditReader : IAuditReader
     {
         private readonly ApplicationDbContext _context;

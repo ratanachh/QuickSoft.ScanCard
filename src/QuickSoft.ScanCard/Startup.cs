@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using QuickSoft.ScanCard.Features.Audits;
+using QuickSoft.ScanCard.Features.Audits.Queries;
 using QuickSoft.ScanCard.Features.Cards;
 using QuickSoft.ScanCard.Features.Profiles;
 using QuickSoft.ScanCard.Infrastructure;

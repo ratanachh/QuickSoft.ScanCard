@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using QuickSoft.ScanCard.Infrastructure;
 
-namespace QuickSoft.ScanCard.Features.Cards
+namespace QuickSoft.ScanCard.Features.Cards.Queries
 {
     public static class List
     {

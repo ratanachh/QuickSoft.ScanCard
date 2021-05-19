@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using QuickSoft.ScanCard.Features.Cards.Queries;
 
 namespace QuickSoft.ScanCard.Features.Cards
 {

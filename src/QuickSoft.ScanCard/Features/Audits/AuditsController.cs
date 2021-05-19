@@ -1,13 +1,14 @@
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using QuickSoft.ScanCard.Infrastructure.Security;
-
 namespace QuickSoft.ScanCard.Features.Audits
 {
+    using Queries;
+    using MediatR;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Infrastructure.Security;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Authorization;
+
     [ApiController]
     [Route("audits")]
     [Authorize(AuthenticationSchemes = JwtIssuerOptions.Schemes)]

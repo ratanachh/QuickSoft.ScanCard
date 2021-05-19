@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
-
-namespace QuickSoft.ScanCard.Features.Audits
+namespace QuickSoft.ScanCard.Features.Audits.Queries
 {
+    using MediatR;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
     public static class List
     {
         public record Query : IRequest<List<Audit>>;
