@@ -25,7 +25,7 @@ namespace QuickSoft.ScanCard.Features.Cards.Select
             
             public async Task<Domain.Card> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Cards.FirstOrDefaultAsync(c => c.CardNumber == request.CardNumber, cancellationToken);
+                return await _context.Cards.FirstOrDefaultAsync(c => c.CardNumber.Equals(request.CardNumber), cancellationToken);
             }
         }
     }

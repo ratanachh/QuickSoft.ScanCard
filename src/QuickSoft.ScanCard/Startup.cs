@@ -70,7 +70,7 @@ namespace QuickSoft.ScanCard
                 {
                     Title = "QuickSoft API",
                     Version = "v1",
-                    Description = "A simple QuickSoft ASP.NET Core Web API",
+                    Description = "QuickSoft Web API",
                     TermsOfService = new Uri("https://quicksoftteam.com/terms"),
                     Contact = new OpenApiContact
                     {

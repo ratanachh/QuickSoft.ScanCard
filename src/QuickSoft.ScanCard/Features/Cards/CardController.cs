@@ -1,12 +1,14 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace QuickSoft.ScanCard.Features.Cards
 {
     [ApiController]
     [Route("card")]
+    [Authorize]
     public class CardController : ControllerBase
     {
         private readonly IMediator _mediator;

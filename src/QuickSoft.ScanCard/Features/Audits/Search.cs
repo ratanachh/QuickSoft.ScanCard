@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using QuickSoft.ScanCard.Infrastructure;
+using QuickSoft.ScanCard.Infrastructure.Errors;
 
 namespace QuickSoft.ScanCard.Features.Audits
 {
@@ -28,14 +30,21 @@ namespace QuickSoft.ScanCard.Features.Audits
                 _auditReader = auditReader;
             }
             
-            public Task<List<Audit>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Audit>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return _auditReader.ReadAudit(cancellationToken, new Audit
+                var audits = await _auditReader.ReadAudit(cancellationToken, new Audit
                 {
                     FromDate = request.FromDate,
                     ToDate = request.ToDate,
                     Username = request.Username
                 },true);
+
+                if (audits.Count == 0)
+                {
+                    throw new RestException(HttpStatusCode.NotFound, new { Audits = Constants.NOT_FOUND});
+                }
+
+                return audits;
             }
         }
     }
