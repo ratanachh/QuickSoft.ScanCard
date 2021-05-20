@@ -1,12 +1,14 @@
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using QuickSoft.ScanCard.Infrastructure;
+using QuickSoft.ScanCard.Infrastructure.Errors;
 
 namespace QuickSoft.ScanCard.Features.Cards.Queries
 {
-    public class SearchByCardNumber
+    public static class SearchByCardNumber
     {
         public class Query : IRequest<Domain.Card>
         {
@@ -24,7 +26,13 @@ namespace QuickSoft.ScanCard.Features.Cards.Queries
             
             public async Task<Domain.Card> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Cards.FirstOrDefaultAsync(c => c.CardNumber == request.CardNumber, cancellationToken);
+                var card = await _context.Cards.FirstOrDefaultAsync(c => c.CardNumber == request.CardNumber, cancellationToken);
+                if (card == null)
+                {
+                    throw new RestException(HttpStatusCode.NotFound, new {Card = Constants.NOT_FOUND});
+                }
+
+                return card;
             }
         }
     }

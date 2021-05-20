@@ -10,7 +10,7 @@ namespace QuickSoft.ScanCard.Features.Cards
 {
     [ApiController]
     [Route("card")]
-    [Authorize]
+    // [Authorize]
     public class CardController : ControllerBase
     {
         private readonly IMediator _mediator;
