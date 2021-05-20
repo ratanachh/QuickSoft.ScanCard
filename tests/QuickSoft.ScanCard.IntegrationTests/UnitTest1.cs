@@ -14,7 +14,7 @@ namespace QuickSoft.ScanCard.IntegrationTests
         [Test]
         public void Test1()
         {
-            Assert.Pass();
+            Assert.Fail("failed");
         }
     }
 }

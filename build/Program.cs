@@ -56,7 +56,7 @@ namespace build
                 });
 
             Target(Publish, DependsOn(Test),
-                ForEach("src/QuickSoft.ScanCard"),
+                ForEach("../src/QuickSoft.ScanCard"),
                 project =>
                 {
                     Console.WriteLine("build: " + project);
