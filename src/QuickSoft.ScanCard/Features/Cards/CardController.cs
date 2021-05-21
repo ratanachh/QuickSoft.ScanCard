@@ -26,13 +26,10 @@ namespace QuickSoft.ScanCard.Features.Cards
             return _mediator.Send(command, cancellationToken);
         }
 
-        [HttpGet("{cardNumber}")]
-        public Task<Domain.Card> SelectByCardNumber(string cardNumber, CancellationToken cancellationToken)
+        [HttpPost("search")]
+        public Task<Domain.Card> SelectByCardNumber([FromBody]Search.Query query, CancellationToken cancellationToken)
         {
-            return _mediator.Send(new SearchByCardNumber.Query
-            {
-                CardNumber = cardNumber
-            }, cancellationToken);
+            return _mediator.Send(query, cancellationToken);
         }
     }
 }
