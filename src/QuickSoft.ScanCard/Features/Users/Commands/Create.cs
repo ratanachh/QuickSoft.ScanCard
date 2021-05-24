@@ -79,7 +79,7 @@ namespace QuickSoft.ScanCard.Features.Users.Commands
                 {
                     throw new RestException(HttpStatusCode.Unauthorized, new {Username = Constants.UNAUTHERIZE});
                 }
-                if (await _context.Persons.Where(x => x.Username == request.User.Username).AnyAsync(cancellationToken))
+                if (await _context.Persons.Where(x => x.Username == request.User.Username).AsNoTracking().AnyAsync(cancellationToken))
                 {
                     throw new RestException(HttpStatusCode.BadRequest, new { Username = Constants.IN_USE });
                 }

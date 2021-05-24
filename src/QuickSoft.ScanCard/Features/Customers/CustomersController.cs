@@ -18,7 +18,7 @@ namespace QuickSoft.ScanCard.Features.Customers
             _mediator = mediator;
         }
         [HttpGet]
-        public Task Get(CancellationToken cancellationToken)
+        public Task<CustomersEnvelope> Get(CancellationToken cancellationToken)
         {
             return _mediator.Send(new List.Query(), cancellationToken);
         }

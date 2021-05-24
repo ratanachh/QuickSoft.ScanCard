@@ -1,6 +1,7 @@
 namespace QuickSoft.ScanCard.Features.Audits
 {
     using System;
+    using System.Collections.Generic;
     using System.Text.Json.Serialization;
     public class Audit
     {
@@ -15,4 +16,6 @@ namespace QuickSoft.ScanCard.Features.Audits
         [JsonIgnore]
         public DateTime FromDate { get; set; }
     }
+
+    public record AuditEnvelope(List<Audit> Audits);
 }

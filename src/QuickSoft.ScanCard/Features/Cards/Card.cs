@@ -17,4 +17,5 @@ namespace QuickSoft.ScanCard.Features.Cards
     }
 
     public record CardEnvelope(Card Card);
+    public record CardsEnvelope(List<Card> Cards);
 }

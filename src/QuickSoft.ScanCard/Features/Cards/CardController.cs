@@ -27,7 +27,7 @@ namespace QuickSoft.ScanCard.Features.Cards
         }
 
         [HttpPost("search")]
-        public Task<Domain.Card> SelectByCardNumber([FromBody]Search.Query query, CancellationToken cancellationToken)
+        public Task<Domain.CardEnvelope> SelectByCardNumber([FromBody]Search.Query query, CancellationToken cancellationToken)
         {
             return _mediator.Send(query, cancellationToken);
         }

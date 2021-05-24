@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using QuickSoft.ScanCard.Features.Audits;
 using QuickSoft.ScanCard.Features.Audits.Queries;
 using QuickSoft.ScanCard.Features.Cards;
+using QuickSoft.ScanCard.Features.Customers.Queries;
 using QuickSoft.ScanCard.Features.Profiles;
 using QuickSoft.ScanCard.Infrastructure;
 using QuickSoft.ScanCard.Infrastructure.Errors;
@@ -119,6 +120,7 @@ namespace QuickSoft.ScanCard
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
             services.AddScoped<IAuditReader, AuditReader>();
+            services.AddScoped<ICustomerReader, CustomerReader>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddJwt();

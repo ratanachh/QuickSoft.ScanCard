@@ -1,18 +1,17 @@
-﻿namespace QuickSoft.ScanCard.Features.Customers.Queries
-{
-    using MediatR;
-    using System.Linq;    
-    using Infrastructure;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Collections.Generic;
-    using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using QuickSoft.ScanCard.Infrastructure;
 
+namespace QuickSoft.ScanCard.Features.Customers.Queries
+{
     public static class List
     {
-        public record Query : IRequest<List<Customer>>;
+        public record Query : IRequest<CustomersEnvelope>;
         
-        public class Handler : IRequestHandler<Query, List<Customer>>
+        public class Handler : IRequestHandler<Query, CustomersEnvelope>
         {
             private readonly ApplicationDbContext _context;
 
@@ -20,22 +19,27 @@
             {
                 _context = context;
             }
-            public async Task<List<Customer>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<CustomersEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await (from cus1 in _context.Customers
-                        join card1 in _context.Cards on cus1.Id equals card1.CustomerId into leftJ
-                        from cc in leftJ.DefaultIfEmpty()
-                        where cc.IsActive.Equals(true)
-                        select new Customer
-                        {
-                            Id = cus1.Id,
-                            AuditId = cus1.AuditId,
-                            CreatedDate = cus1.CreatedDate,
-                            Name = cus1.Name,
-                            Phone = cus1.Phone,
-                            IsCardActive = cc.IsActive
-                        }
-                    ).ToListAsync(cancellationToken);
+                var customers = await 
+                    _context.Customers
+                    .GroupJoin(_context.Cards, cus1 => cus1.Id, card1 => card1.CustomerId,
+                        (cus1, leftJ) => new {cus1, leftJ})
+                    .SelectMany(t => t.leftJ.DefaultIfEmpty(), (t, cc) => new {t, cc})
+                    .Where(t => t.cc.IsActive.Equals(true))
+                    .AsNoTracking()
+                    .Select(t => new Customer
+                    {
+                        Id = t.t.cus1.Id,
+                        AuditId = t.t.cus1.AuditId,
+                        CreatedDate = t.t.cus1.CreatedDate,
+                        Name = t.t.cus1.Name,
+                        Phone = t.t.cus1.Phone,
+                        IsCardActive = t.cc.IsActive
+                    })
+                    .ToListAsync(cancellationToken);
+
+                return new CustomersEnvelope(customers);
             }
         }
     }

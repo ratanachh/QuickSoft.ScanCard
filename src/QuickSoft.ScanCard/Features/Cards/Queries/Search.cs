@@ -13,13 +13,13 @@ namespace QuickSoft.ScanCard.Features.Cards.Queries
 {
     public static class Search
     {
-        public class Query : IRequest<Domain.Card>
+        public class Query : IRequest<Domain.CardEnvelope>
         {
             public string CardNumber { get; set; } = string.Empty;
             public string Username { get; set; } = string.Empty;
         }
 
-        public class Handler : IRequestHandler<Query, Domain.Card>
+        public class Handler : IRequestHandler<Query, Domain.CardEnvelope>
         {
             private readonly ApplicationDbContext _context;
 
@@ -28,22 +28,22 @@ namespace QuickSoft.ScanCard.Features.Cards.Queries
                 _context = context;
             }
             
-            public async Task<Domain.Card> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Domain.CardEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await (
-                        from card in _context.Cards
-                        join customer in _context.Customers on card.CustomerId equals customer.Id into cc
-                        from cus in cc.DefaultIfEmpty()
-                        where card.CardNumber.Equals(request.CardNumber) || cus.Name.Equals(request.Username)
-                        select card
-                    )
+                var result = await _context.Cards
+                    .GroupJoin(_context.Customers, card => card.CustomerId, customer => customer.Id, (card, customer) => new {card, customer})
+                    .SelectMany(t => t.customer.DefaultIfEmpty(), (card, customer) => new {card, customer})
+                    .Where(t => t.card.card.CardNumber == request.CardNumber || t.customer.Name == request.Username)
+                    .AsNoTracking()
+                    .Select(t => t.card.card)
                     .FirstOrDefaultAsync(cancellationToken);
+                
                 if (result == null)
                 {
-                    throw new RestException(HttpStatusCode.NotFound, new {Card = Constants.NOT_FOUND});
+                    throw new RestException(HttpStatusCode.NotFound, new { Card = Constants.NOT_FOUND });
                 }
 
-                return result;
+                return new Domain.CardEnvelope(result);
             }
         }
     }

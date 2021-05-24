@@ -1,7 +1,6 @@
-using System.Collections.Generic;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuickSoft.ScanCard.Features.Cards.Queries;
 
@@ -17,13 +16,11 @@ namespace QuickSoft.ScanCard.Features.Cards
         {
             _mediator = mediator;
         }
-        
+
         [HttpGet]
-        public Task<List<Card>> List(CancellationToken cancellationToken)
+        public Task<CardsEnvelope> List(CancellationToken cancellationToken)
         {
             return _mediator.Send(new List.Query(), cancellationToken);
         }
-        
-        
     }
 }

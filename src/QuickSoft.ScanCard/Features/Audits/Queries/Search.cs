@@ -11,7 +11,7 @@ namespace QuickSoft.ScanCard.Features.Audits.Queries
     
     public static class Search
     {
-        public class Query : IRequest<List<Audit>>
+        public class Query : IRequest<AuditEnvelope>
         {
             public string Username { get; set; }
             public DateTime FromDate { get; set; }
@@ -19,7 +19,7 @@ namespace QuickSoft.ScanCard.Features.Audits.Queries
             
         }
         
-        public class Handler : IRequestHandler<Query, List<Audit>>
+        public class Handler : IRequestHandler<Query, AuditEnvelope>
         {
             private readonly ApplicationDbContext _context;
             private readonly IAuditReader _auditReader;
@@ -30,7 +30,7 @@ namespace QuickSoft.ScanCard.Features.Audits.Queries
                 _auditReader = auditReader;
             }
             
-            public async Task<List<Audit>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<AuditEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
                 var audits = await _auditReader.ReadAudit(cancellationToken, new Audit
                 {
@@ -44,7 +44,7 @@ namespace QuickSoft.ScanCard.Features.Audits.Queries
                     throw new RestException(HttpStatusCode.NotFound, new { Audits = Constants.NOT_FOUND});
                 }
 
-                return audits;
+                return new AuditEnvelope(audits);
             }
         }
     }

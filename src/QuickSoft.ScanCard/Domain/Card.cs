@@ -22,4 +22,6 @@ namespace QuickSoft.ScanCard.Domain
 
         public DateTime CreatedDate { get; set; }
     }
+
+    public record CardEnvelope(Card Card);
 }

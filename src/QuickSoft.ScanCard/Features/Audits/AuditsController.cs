@@ -22,13 +22,13 @@ namespace QuickSoft.ScanCard.Features.Audits
         }
         
         [HttpGet]
-        public Task<List<Audit>> GetDetail(CancellationToken cancellationToken)
+        public Task<AuditEnvelope> GetDetail(CancellationToken cancellationToken)
         {
             return _mediator.Send(new List.Query(), cancellationToken);
         }
 
         [HttpPost("search")]
-        public Task<List<Audit>> Search([FromBody] Search.Query query, CancellationToken cancellationToken)
+        public Task<AuditEnvelope> Search([FromBody] Search.Query query, CancellationToken cancellationToken)
         {
             return _mediator.Send(query, cancellationToken);
         }

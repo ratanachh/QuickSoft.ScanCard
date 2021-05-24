@@ -3,12 +3,12 @@ namespace QuickSoft.ScanCard.Features.Audits.Queries
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Collections.Generic;
+
     public static class List
     {
-        public record Query : IRequest<List<Audit>>;
+        public record Query : IRequest<AuditEnvelope>;
         
-        public class Handler : IRequestHandler<Query, List<Audit>>
+        public class Handler : IRequestHandler<Query, AuditEnvelope>
         {
             private readonly IAuditReader _auditReader;
 
@@ -16,9 +16,10 @@ namespace QuickSoft.ScanCard.Features.Audits.Queries
             {
                 _auditReader = auditReader;
             }
-            public Task<List<Audit>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<AuditEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                return _auditReader.ReadAudit(cancellationToken);
+                var audits = await _auditReader.ReadAudit(cancellationToken);
+                return new AuditEnvelope(audits);
             }
         }
     }

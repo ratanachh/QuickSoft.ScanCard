@@ -51,6 +51,7 @@ namespace QuickSoft.ScanCard.Features.Users.Queries
             private readonly IJwtTokenGenerator _jwtTokenGenerator;
             private readonly IMapper _mapper;
             private readonly ICurrentUserAccessor _currentUserAccessor;
+            private const int ValidPeriodUser = 86400;
 
             public Handler(ApplicationDbContext context, IPasswordHasher passwordHasher, IJwtTokenGenerator jwtTokenGenerator, IMapper mapper, ICurrentUserAccessor currentUserAccessor)
             {
@@ -62,7 +63,10 @@ namespace QuickSoft.ScanCard.Features.Users.Queries
             }
             public async Task<UserEnvelope> Handle(Command request, CancellationToken cancellationToken)
             {
-                var person = await _context.Persons.Where(x => x.Username == request.User.Username).SingleOrDefaultAsync(cancellationToken);
+                var person = await _context.Persons
+                    .Where(x => x.Username == request.User.Username)
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync(cancellationToken);
                 if (person == null)
                 {
                     throw new RestException(HttpStatusCode.Unauthorized, new { Error = "Invalid email / password." });
@@ -92,7 +96,7 @@ namespace QuickSoft.ScanCard.Features.Users.Queries
                 await _context.Audits.AddAsync(audit, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
                 
-                user.Token = _jwtTokenGenerator.ValidTokenTime(86400).CreateToken(person.Username, user.Type, audit.Id.ToString());
+                user.Token = _jwtTokenGenerator.ValidTokenTime(ValidPeriodUser).CreateToken(person.Username, user.Type, audit.Id.ToString());
                 
                 return new UserEnvelope(user);
             }

@@ -10,9 +10,9 @@ namespace QuickSoft.ScanCard.Features.Cards.Queries
 {
     public static class List
     {
-        public record Query : IRequest<List<Card>>;
+        public record Query : IRequest<CardsEnvelope>;
         
-        public class Handler : IRequestHandler<Query, List<Card>>
+        public class Handler : IRequestHandler<Query, CardsEnvelope>
         {
             private readonly ApplicationDbContext _context;
 
@@ -20,9 +20,9 @@ namespace QuickSoft.ScanCard.Features.Cards.Queries
             {
                 _context = context;
             }
-            public async Task<List<Card>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<CardsEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Cards.Select(c =>new Card
+                var cards = await _context.Cards.Select(c =>new Card
                 {
                     CardNumber = c.CardNumber,
                     CreatedDate = c.CreatedDate,
@@ -30,6 +30,8 @@ namespace QuickSoft.ScanCard.Features.Cards.Queries
                     AuditId = c.AuditId,
                     CustomerId = c.CustomerId
                 }).ToListAsync(cancellationToken);
+
+                return new CardsEnvelope(cards);
             }
         }
     }

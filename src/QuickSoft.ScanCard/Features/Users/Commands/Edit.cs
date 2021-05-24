@@ -54,7 +54,8 @@ namespace QuickSoft.ScanCard.Features.Users.Commands
             public async Task<UserEnvelope> Handle(Command request, CancellationToken cancellationToken)
             {
                 var currentUserName = _currentUserAccessor.GetCurrentUsername();
-                var person = await _context.Persons.Where(x => x.Username == currentUserName)
+                var person = await _context.Persons
+                    .Where(x => x.Username == currentUserName)
                     .FirstOrDefaultAsync(cancellationToken);
 
                 person.Username = request.User.Username ?? person.Username;

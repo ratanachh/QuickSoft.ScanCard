@@ -31,14 +31,12 @@ namespace QuickSoft.ScanCard.Features.Users.Queries
         public class Handler : IRequestHandler<Query, UserEnvelope>
         {
             private readonly ApplicationDbContext _context;
-            private readonly IJwtTokenGenerator _jwtTokenGenerator;
             private readonly IMapper _mapper;
             private readonly ICurrentUserAccessor _currentUserAccessor;
 
-            public Handler(ApplicationDbContext context, IJwtTokenGenerator jwtTokenGenerator, IMapper mapper, ICurrentUserAccessor currentUserAccessor)
+            public Handler(ApplicationDbContext context, IMapper mapper, ICurrentUserAccessor currentUserAccessor)
             {
                 _context = context;
-                _jwtTokenGenerator = jwtTokenGenerator;
                 _mapper = mapper;
                 _currentUserAccessor = currentUserAccessor;
             }
