@@ -120,7 +120,6 @@ namespace QuickSoft.ScanCard
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
             services.AddScoped<IAuditReader, AuditReader>();
-            services.AddScoped<ICustomerReader, CustomerReader>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddJwt();
