@@ -53,7 +53,7 @@ namespace QuickSoft.ScanCard.Features.Cards.Commands
                     CardNumber = request.CardNumber,
                     IsActive = true,
                     CreatedDate = DateTime.Now,
-                    AuditId = int.Parse(auditId)
+                    AuditId = auditId
                 };
                 await _context.Cards.AddAsync(cardData, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);

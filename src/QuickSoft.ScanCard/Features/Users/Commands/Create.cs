@@ -100,7 +100,7 @@ namespace QuickSoft.ScanCard.Features.Users.Commands
 
                 var user = _mapper.Map<Person, User>(person);
                 user.Type = UserConstants.GetUserTypeString(person.UserType);
-                user.Token = _jwtTokenGenerator.CreateToken(user.Username, user.Type, auditId);
+                user.Token = _jwtTokenGenerator.CreateToken(user.Username, user.Type, auditId.ToString());
                 return new UserEnvelope(user);
             }
         }

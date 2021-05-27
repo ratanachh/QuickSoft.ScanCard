@@ -43,11 +43,12 @@ namespace QuickSoft.ScanCard.Infrastructure
             return remoteIpAddress?.ToString();
         }
 
-        public string GetAuditId()
+        public int GetAuditId()
         {
-            return _httpContextAccessor.HttpContext?.User.Claims
+            
+            return int.Parse(_httpContextAccessor.HttpContext?.User.Claims
                 .FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Aud)
-                ?.Value;
+                ?.Value ?? string.Empty);
         }
     }
 }

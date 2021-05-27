@@ -9,6 +9,6 @@ namespace QuickSoft.ScanCard.Infrastructure
 
         IBrowser GetUserAgent();
         string GetUserIp();
-        string GetAuditId();
+        int GetAuditId();
     }
 }
