@@ -21,5 +21,11 @@ namespace QuickSoft.ScanCard.Features.Customers
         {
             return _mediator.Send(command, cancellationToken);
         }
+
+        [HttpPut]
+        public Task<CustomerEnvelope> Edit([FromBody] Edit.Command command, CancellationToken cancellationToken)
+        {
+            return _mediator.Send(command, cancellationToken);
+        }
     }
 }

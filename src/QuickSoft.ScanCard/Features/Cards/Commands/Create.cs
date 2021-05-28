@@ -44,7 +44,7 @@ namespace QuickSoft.ScanCard.Features.Cards.Commands
             {
                 if (await _context.Cards.Where(x => x.CardNumber == request.CardNumber).AnyAsync(cancellationToken))
                 {
-                    throw new RestException(HttpStatusCode.BadRequest, new { CardNumber = Constants.ALREADY_EXIST });
+                    throw new RestException(HttpStatusCode.BadRequest, new { Card = Constants.ALREADY_EXIST });
                 }
                 var auditId = _currentUserAccessor.GetAuditId();
 
