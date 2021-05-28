@@ -20,6 +20,7 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
             public string Phone { get; set; }
             public string CardNumber { get; set; }
         }
+
         public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
@@ -29,7 +30,7 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
                 RuleFor(x => x.CardNumber).NotEmpty().NotNull();
             }
         }
-        
+
         public class Handler : IRequestHandler<Command, CustomerEnvelope>
         {
             private readonly ApplicationDbContext _context;
@@ -46,6 +47,7 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
             public async Task<CustomerEnvelope> Handle(Command request, CancellationToken cancellationToken)
             {
                 #region Checking card
+
                 var card = await _context.Cards
                     .FirstOrDefaultAsync(c => c.CardNumber == request.CardNumber, cancellationToken);
 
@@ -53,12 +55,14 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
                 {
                     throw new RestException(HttpStatusCode.NotFound, new {Customer = "The card is not exist"});
                 }
+
                 if (card.CustomerId != 0)
                 {
                     throw new RestException(HttpStatusCode.NotFound, new {Customer = "The card is already used."});
                 }
+
                 #endregion
-                
+
                 // Insert customer
                 var auditId = _currentUserAccessor.GetAuditId();
                 var customer = new Domain.Customer
@@ -66,17 +70,19 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
                     AuditId = auditId,
                     CreatedDate = DateTime.Now,
                     Name = request.Name,
-                    Phone = request.Phone
+                    Phone = request.Phone,
                 };
                 await _context.Customers.AddAsync(customer, cancellationToken);
+                // get id customer from database
                 await _context.SaveChangesAsync(cancellationToken);
-                
+
                 // Updating card
                 card.CustomerId = customer.Id;
-                await _context.Cards.AddAsync(card, cancellationToken);
+                _context.Update(card);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 var response = _mapper.Map<Domain.Customer, Customer>(customer);
+                response.IsCardActive = card.IsActive;
                 return new CustomerEnvelope(response);
             }
         }
