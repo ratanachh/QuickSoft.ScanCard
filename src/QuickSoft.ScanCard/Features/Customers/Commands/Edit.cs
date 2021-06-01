@@ -14,6 +14,7 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
     {
         public class Command : IRequest<CustomerEnvelope>
         {
+            public int Id { get; set; }
             public string Name { get; set; }
             public string Phone { get; set; }
             public string CardNumber { get; set; }
@@ -24,6 +25,7 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
         {
             public CommandValidator()
             {
+                RuleFor(x => x.Id).NotEmpty();
                 RuleFor(x => x.Name).NotEmpty().NotNull();
                 RuleFor(x => x.Phone).NotEmpty().NotNull();
                 RuleFor(x => x.CardNumber).NotEmpty().NotNull();
@@ -56,7 +58,8 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
                     throw new RestException(HttpStatusCode.NotFound, new {Card = "The card is already used."});
                 }
 
-                var customer = await _context.Customers.FirstOrDefaultAsync(x => x.Id == card.CustomerId, cancellationToken);
+                var customer = await _context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+                return null;
             }
         }
     }
