@@ -14,8 +14,8 @@ namespace QuickSoft.ScanCard
         private static async Task CreateHostBuilder(string[] args)
         {
             var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", false, true)
-                // .AddJsonFile("appsettings.Development.json", false, true)
+                // .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile("appsettings.Development.json", false, true)
                 .AddEnvironmentVariables()
                 .Build();
 

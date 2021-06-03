@@ -14,7 +14,7 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
     {
         public class Command : IRequest<CustomerEnvelope>
         {
-            public int CustomerId { get; set; }
+            public int Id { get; set; }
             public string Name { get; set; }
             public string Phone { get; set; }
             public string CardNumber { get; set; }
@@ -25,7 +25,7 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
         {
             public CommandValidator()
             {
-                RuleFor(x => x.CustomerId).NotEmpty().NotNull();
+                RuleFor(x => x.Id).NotEmpty();
                 RuleFor(x => x.Name).NotEmpty().NotNull();
                 RuleFor(x => x.Phone).NotEmpty().NotNull();
                 RuleFor(x => x.CardNumber).NotEmpty().NotNull();
@@ -59,7 +59,7 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
                 }
 
                 var customer = await _context.Customers
-                    .FirstOrDefaultAsync(x => x.Id == request.CustomerId, cancellationToken);
+                    .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
 
                 customer.Name = request.Name ?? customer.Name;
