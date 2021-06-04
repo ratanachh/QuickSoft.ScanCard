@@ -283,3 +283,5 @@ tools
 
 .DS_Store
 dist/
+
+Program.cs
