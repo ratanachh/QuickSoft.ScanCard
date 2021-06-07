@@ -65,7 +65,7 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
                 customer.Name = request.Name ?? customer.Name;
                 customer.Phone = request.Phone ?? customer.Phone;
                 card.IsActive = !request.DisableCard;
-
+                card.CardNumber = request.CardNumber;
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return new CustomerEnvelope(new Customer
