@@ -53,19 +53,18 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
                     throw new RestException(HttpStatusCode.NotFound, new {Card = "The card is not exist"});
                 }
 
-                if (card.CustomerId != 0)
+                var customer = await _context.Customers
+                    .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+                
+                if (card.CustomerId != 0 && customer.Id != card.CustomerId)
                 {
                     throw new RestException(HttpStatusCode.NotFound, new {Card = "The card is already used."});
                 }
 
-                var customer = await _context.Customers
-                    .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-
-
                 customer.Name = request.Name ?? customer.Name;
                 customer.Phone = request.Phone ?? customer.Phone;
                 card.IsActive = !request.DisableCard;
-                card.CardNumber = request.CardNumber;
+                card.CustomerId = customer.Id;
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return new CustomerEnvelope(new Customer
