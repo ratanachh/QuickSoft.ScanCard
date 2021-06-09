@@ -29,7 +29,6 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
                 RuleFor(x => x.Name).NotEmpty().NotNull();
                 RuleFor(x => x.Phone).NotEmpty().NotNull();
                 RuleFor(x => x.CardNumber).NotEmpty().NotNull();
-                RuleFor(x => x.DisableCard).NotEmpty().NotNull();
             }
         }
 
@@ -59,6 +58,16 @@ namespace QuickSoft.ScanCard.Features.Customers.Commands
                 if (card.CustomerId != 0 && customer.Id != card.CustomerId)
                 {
                     throw new RestException(HttpStatusCode.NotFound, new {Card = "The card is already used."});
+                }
+
+                if (card.CardNumber != request.CardNumber)
+                {
+                    // To find current customer card
+                    var currentCard = await _context.Cards.FirstOrDefaultAsync(x => x.CustomerId == customer.Id && x.IsActive, cancellationToken);
+                    if (currentCard != null)
+                    {
+                        currentCard.IsActive = false;
+                    }
                 }
 
                 customer.Name = request.Name ?? customer.Name;
